@@ -23,7 +23,7 @@ Imports:
     dplyr (>= 1.1),
     rlang (>= 1.1)
 Remotes:
-    biomass-dynamic-models/r-packages/lhm,
+    biomass-dynamic-models/lhm,
     flr/kobe
 Collate: 
     'bdm-class.R'
