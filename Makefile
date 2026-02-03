@@ -35,7 +35,7 @@ pkgdown: documentation
 	Rscript \
 	-e 'if (!requireNamespace("pkgdown")) install.packages("pkgdown")' \
 	-e 'pkgdown::build_site()' \
-	-e 'setwd("docs"); x <- readLines("index.html"); x[93] <- "<h2 data-toc-skip>Homepage</h2><ul class=\"list-unstyled\"><li><a href=\"https://biomass-dynamic-models.github.io\" class=\"external-link\">BDM-fish</a></li></ul>"; writeLines(x, con = "index.html")'
+	-e 'setwd("docs"); x <- readLines("index.html"); x[111] <- "<h2 data-toc-skip>Homepage</h2><ul class=\"list-unstyled\"><li><a href=\"https://biomass-dynamic-models.github.io\" class=\"external-link\">BDM-fish</a></li></ul>"; writeLines(x, con = "index.html")'
 	git add docs
 	git commit -m "update pkgdown"
 	git push origin main
