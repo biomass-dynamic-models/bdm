@@ -30,7 +30,7 @@ install: build
 clean:
 	@rm -rf $(PKGNAME)_$(PKGVERS).tar.gz $(PKGNAME).Rcheck
 	
-pkgdown: documentation
+site: install
 	rm -r docs
 	Rscript \
 	-e 'if (!requireNamespace("pkgdown")) install.packages("pkgdown")' \
