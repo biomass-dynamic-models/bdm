@@ -167,10 +167,6 @@ mdl.project <- project(mdl, harvest = c(0.01, 0.025, 0.05), time = 100)
 # generate depletion results table
 dep.project <- apply(mdl.project$depletion, 2:3, median)
 knitr::kable(apply(mdl.project$depletion, 2:3, median)[nrow(dep.project),,drop = FALSE], digits = 2)
-
-# display kobe plot
-proj <- as.kobe(mdl, mdl.project, year = max(mdl@data$time))
-kobePhase(proj) + geom_point(aes(stock, harvest, col = projection_value))
 ```
 
 
