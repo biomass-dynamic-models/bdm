@@ -3,10 +3,12 @@
 on:
   workflow_dispatch:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches: ["main"]
+    paths: ["DESCRIPTION"]
 
+permissions:
+  contents: write
+  
 name: R-CMD-check
 
 jobs:
