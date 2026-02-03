@@ -70,9 +70,10 @@ dynplot.bdm <- function(object, ..., pars = 'depletion', labels = character()) {
             
             if (is.labelled) {
                 x@run <- labels[i]
-            }
-            if (length(x@run) == 0) {
-                warning("'run' unspecified") 
+            } else {
+                if (length(x@run) == 0 & length(y) > 1) {
+                    warning("'run' ", i, " is not labelled") 
+                }
             }
             
             par_dfr <- .array2dfr(par_arr)
