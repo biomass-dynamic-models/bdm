@@ -83,7 +83,7 @@ updatePrior.bdm <-  function(object, prior, ...) {
             object@model_code <- sub("sigmap2.?~.?inv_gamma\\(.+?\\);",paste("sigmap2 ~ inv_gamma(",alpha,",",beta,");",sep = ""),object@model_code)
             
         }
-    } else if (class(prior) == 'prior') {
+    } else if (is(prior, 'prior')) {
         
         lognormal_par <- prior@lognormal_par
         
