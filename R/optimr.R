@@ -1,0 +1,100 @@
+#' @title Obtain a point estimate by maximizing the joint posterior
+#' @description
+#' Execute a Bayesian (MAP) model fit using \code{\link[rstan:optimizing]{optimizing}}.
+#' 
+#' @param object compiled \code{bdm} class object
+#' @param data a \code{list} object containing the model inputs
+#' @param run optional character vector to label the run
+#' @param init an initialisation \code{list}, \code{function} or \code{character} string
+#' @param ... arguments to generic function (not used)
+#' @return Returns a \code{bdm} object containing MAP estimates.
+#' @seealso [compiler()], \code{\link[rstan:optimizing]{optimizing}}
+#' @examples
+#' # get some data
+#' data(albio)
+#' dat <- bdmData(harvest = albio$catch, index = albio$cpue, time = albio$year)
+#' 
+#' # initialize and fit default model
+#' \dontrun{
+#' mdl <- bdm()
+#' mdl <- compiler(mdl)
+#' mdl <- optimr(mdl, dat)
+#' }
+#' 
+#' @include bdm.R
+#' 
+#' @import methods
+#' @import rstan
+#' @importFrom stats rbeta median
+#' 
+#' @export
+setGeneric("optimr", function(object, ...) standardGeneric("optimr"))
+#'
+#' @rdname optimr
+setMethod("optimr", signature = "bdm", definition = function(object, data = list(), run = character(), init = "random", ...) {
+    
+    # initial assignments
+    if (length(data) > 0) {
+        if (length(object@data) > 0)
+            warning("Replaced existent data in bdm model object")
+        object@data <- data
+    }
+    if (length(run) > 0) {
+        if (length(object@run) > 0)
+            warning("Replaced existent run label in bdm model object (", object@run,") with ", run)
+        object@run <- run
+    }
+    
+    # check for default model
+    # parameterisation
+    pars <- getparams(object)
+    pars <- setdiff(pars, names(object@data))
+    default_pars <- setequal(pars, c('r', 'logK', 'x'))
+    
+    # initial values
+    if (is.character(init) & default_pars) {
+        
+        init.r    <- getr(object)
+        init.logK <- getlogK(object)
+        init.x    <- getx(object)
+        
+        if (init == "fixed") {
+        
+            init <- list(r = init.r[['E[r]']], logK = init.logK[['E[logK]']], x = init.x[['E[x]']])
+            
+        } else { if (init == "random") {
+        
+            # helper function
+            ff <- function(y) rbeta(length(y), 10 * y, 10 * (1 - y))
+            
+            init <- list(r = rlnorm(1, init.r[['E[log(r)]']], init.r[['SD[log(r)]']]), logK = init.logK[['E[logK]']], x = ff(init.x[['E[x]']]))
+            
+        } else { if (init == "sampler") {
+            
+            init <- list()
+            init[['r']]    <- median(object@trace[['r']])
+            init[['logK']] <- median(object@trace[['logK']])
+            init[['x']]    <- apply(object@trace[['x']], 2, median)
+            
+        }}}
+    } else { 
+        if (is.list(init)) {
+        
+            message("Intial values supplied on input")
+            
+        }
+    }
+    
+    # maxium a posterior estimate using rstan
+    fit_object <- suppressWarnings(optimizing(object, data = object@data, init = init, as_vector = FALSE, ...))
+    
+    # extract estimates
+    if (fit_object$return_code == 0) {
+        object@map <- fit_object$par
+    } else {
+        warning("Optimization terminated with error")
+    }
+    
+    # return
+    return(object)
+})

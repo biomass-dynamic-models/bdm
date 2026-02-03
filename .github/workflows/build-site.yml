@@ -1,0 +1,31 @@
+name: Build site
+on:
+  workflow_dispatch:
+  push:
+    paths: ["docs/**"]
+
+permissions:
+  contents: write
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Push site
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+           API_TOKEN_GITHUB: ${{ secrets.GIT_PAT_TOKEN }}
+        with:
+          source-directory: "bdm/docs"
+          target-directory: "docs/bdm"
+          destination-github-username: "biomass-dynamic-models"
+          destination-repository-name: "biomass-dynamic-models.github.io"
+          commit-message: "sync site with io"
+          target-branch: main
