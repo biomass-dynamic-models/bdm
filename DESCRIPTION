@@ -12,6 +12,7 @@ VignetteBuilder: knitr
 Suggests:
     knitr (>= 1.50),
     testthat (>= 3.3),
+    rmarkdown (>= 2.30),
     lhm,
     kobe
 Depends:
