@@ -1,7 +1,8 @@
-bdm
-===
-
 Bayesian biomass dynamic model for estimation of population status from catch and abundance data
+================================================================================================
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/biomass-dynamic-models/bdm/actions/workflows/check-release.yaml/badge.svg)](https://github.com/biomass-dynamic-models/bdm/actions/workflows/check-release.yaml)
+<!-- badges: end -->
 
 Instructions
 =============
