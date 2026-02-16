@@ -2,7 +2,7 @@ Package: bdm
 Type: Package
 Title: Bayesian biomass dynamics model
 Version: 1.0.0
-Date: 2026-02-03
+Date: 2026-02-16
 Authors@R: c(
     person("Charles", "Edwards", email = "cescapecs@gmail.com", role = c("cre", "aut")),
     person("Murdoch", "McAllister", email = "m.mcallister@oceans.ubc.ca", role = c("aut")))
