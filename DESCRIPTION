@@ -1,6 +1,6 @@
 Package: bdm
 Type: Package
-Title: Bayesian biomass dynamics model
+Title: Bayesian biomass dynamic model
 Version: 1.0.0
 Date: 2026-02-16
 Authors@R: c(
