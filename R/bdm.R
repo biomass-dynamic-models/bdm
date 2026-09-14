@@ -38,24 +38,23 @@ bdm_default <- '
 data {
     int T;
     int I;
-    real index[T,I];
-    real harvest[T];
+    array[T,I] real index;
+    array[T]   real harvest;
     real n;
-    real sigmao[T,I];
-    //real sigmap;
+    array[T,I] real sigmao;
 }
 parameters {
     real<lower=1> logK;
     real<lower=0> r;
-    real<lower=0> x[T];
+    array[T] real<lower=0> x;
     real<lower=0> sigmap;
 }
 transformed parameters {
 
-    real q[I];
+    array[I] real q;
     
     // variance terms
-    real sigmao2[T,I];
+    array[T,I] real sigmao2;
     real sigmap2;
     
     // fletcher-schaefer
@@ -71,9 +70,11 @@ transformed parameters {
     g = pow(n,(n/(n-1)))/(n-1);
     
     // variance terms
-    for(t in 1:T)
-        for(i in 1:I)
+    for (t in 1:T) {
+        for (i in 1:I) {
             sigmao2[t,i] = square(sigmao[t,i]);
+        }
+    }
     sigmap2 = square(sigmap);
     
     // compute mpd catchability assuming 
@@ -83,12 +84,12 @@ transformed parameters {
         real sum1;
         real sum2;
         real p;
-        for(i in 1:I){
+        for (i in 1:I) {
             sum1 = 0.0;
             sum2 = 0.0;
             p = 0.0;
-            for(t in 1:T){
-                if(index[t,i]>0.0 && x[t]>0.0) {
+            for (t in 1:T) {
+                if (index[t,i]>0.0 && x[t]>0.0) {
                     sum1 = sum1 + log(index[t,i]/x[t])/sigmao2[t,i];
                     sum2 = sum2 + 1/sigmao2[t,i];
                     p = p + 1.0;
@@ -114,7 +115,7 @@ model {
         real H;
         real mu;
         x[1] ~ lognormal(log(1.0)-sigmap2/2,sigmap);
-        for(t in 2:T) {
+        for (t in 2:T) {
             H = fmin(exp(log(harvest[t-1]) - logK),x[t-1]);
             if(x[t-1]<=dmsy) mu = x[t-1] + r * x[t-1] * (1 - x[t-1]/h) - H;
             if(x[t-1]> dmsy) mu = x[t-1] + g * m * x[t-1] * (1 - pow(x[t-1],(n-1))) - H;
@@ -128,9 +129,9 @@ model {
     // ********************
     {
         real mu;
-        for(i in 1:I){
-            for(t in 1:T){
-                if(index[t,i]>0.0 && x[t]>0.0 && q[i]>0.0) {
+        for (i in 1:I){
+            for (t in 1:T) {
+                if (index[t,i]>0.0 && x[t]>0.0 && q[i]>0.0) {
                     mu = log(q[i]*x[t]) - sigmao2[t,i]/2;
                     index[t,i] ~ lognormal(mu,sigmao[t,i]);
                 }
@@ -140,9 +141,9 @@ model {
     
     // apply penalty for H>0.95
     // ************************
-    for(t in 1:T){  
+    for (t in 1:T) {  
         real H_; H_ = harvest[t]/exp(log(x[t]) + logK);
-        if(H_>0.95) {
+        if (H_>0.95) {
             target += -log(H_/0.95) * (1/sigmap2);
         }
     }
@@ -153,13 +154,13 @@ generated quantities {
     real logKprior;
     real sigmapPrior;
     
-    real biomass[T];
-    real depletion[T];
-    real harvest_rate[T];
-    real surplus_production[T];
+    array[T] real biomass;
+    array[T] real depletion;
+    array[T] real harvest_rate;
+    array[T] real surplus_production;
     
-    real epsilon_o[T,I];
-    real epsilon_p[T];
+    array[T,I] real epsilon_o;
+    array[T]   real epsilon_p;
     
     real current_biomass;
     real current_depletion;
@@ -174,12 +175,12 @@ generated quantities {
     real current_depletion_over_dmsy;
     real current_harvest_rate_over_hmsy;
     
-    real observed_index[T,I];
-    real predicted_index[T,I];
+    array[T,I] real observed_index;
+    array[T,I] real predicted_index;
     
     {
         real H;
-        for(t in 2:T) {
+        for (t in 2:T) {
             H = fmin(exp(log(harvest[t-1]) - logK),x[t-1]);
             if(x[t-1]<=dmsy) epsilon_p[t-1] = x[t]/(x[t-1] + r * x[t-1] * (1 - x[t-1]/h) - H);
             if(x[t-1]> dmsy) epsilon_p[t-1] = x[t]/(x[t-1] + g * m * x[t-1] * (1 - pow(x[t-1],(n-1))) - H);
@@ -187,7 +188,7 @@ generated quantities {
         epsilon_p[T] = lognormal_rng(log(1.0)-sigmap2/2,sigmap);
     }
     
-    for(t in 1:T) {
+    for (t in 1:T) {
         biomass[t] = x[t] * exp(logK);
         depletion[t] = x[t];
         harvest_rate[t] = harvest[t]/exp(log(x[t]) + logK);
@@ -208,15 +209,15 @@ generated quantities {
     current_depletion_over_dmsy = current_depletion / depletion_at_msy;
     current_harvest_rate_over_hmsy = current_harvest_rate / harvest_rate_at_msy;
     
-    for(i in 1:I){
-        for(t in 1:T){
+    for (i in 1:I) {
+        for (t in 1:T) {
             observed_index[t,i] = index[t,i];
             predicted_index[t,i] = q[i]*x[t];
         }
     }
     
-    for(t in 1:T){
-        for(i in 1:I){
+    for (t in 1:T) {
+        for (i in 1:I) {
             epsilon_o[t,i] = observed_index[t,i]/predicted_index[t,i];
         }
     }
