@@ -14,6 +14,7 @@ Suggests:
     knitr (>= 1.50),
     testthat (>= 3.3),
     rmarkdown (>= 2.30),
+    formatR (>= 1.14),
     lhm,
     kobe
 Depends:
