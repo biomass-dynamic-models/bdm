@@ -170,7 +170,7 @@ The revised model could be coded with the following changes relative to the defa
       for(t in 1:T){
       real H_; H_ = harvest[t]/exp(log(x[t]) + logK);
         if(H_>0.95) {
-          increment_log_prob(-log(H_/0.95) * (1/sigmap2));
+          target += -log(H_/0.95) * (1/sigmap2);
         }
       }
     }
