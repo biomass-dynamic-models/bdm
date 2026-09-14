@@ -240,7 +240,7 @@ The revised model could be coded with the following changes relative to the defa
 This new formulation includes a revision of our assumptions regarding the process error, allowing the variance to be estimated. We can update the model code using a `list` argument supplied to the `updatePrior` function. It is then necessary to compile the model:
 
 ```{r, results='hide'}
-mdl <- bdm(model.code = new_model)
+mdl <- bdm(model_code = new_model)
 mdl <- updatePrior(mdl, prior = list(par = 'r', meanlog = -0.91, sdlog = 0.40))
 mdl <- compiler(mdl)
 ```
