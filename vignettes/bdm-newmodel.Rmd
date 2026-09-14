@@ -1,7 +1,7 @@
 ---
 title: "A new (non-default) model application of `bdm`"
-author: "Charles T T Edwards (NIWA, Wellington, New Zealand)"
-date: "`r Sys.Date()`"
+author: "Charles T T Edwards"
+date: "`r format(Sys.Date(), '%d-%b-%Y')`"
 output:
   rmarkdown::html_vignette:
     fig_caption: yes
