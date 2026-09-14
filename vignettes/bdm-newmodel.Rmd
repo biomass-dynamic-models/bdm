@@ -78,7 +78,7 @@ The revised model could be coded with the following changes relative to the defa
     }
     transformed parameters {
 
-      real q[I];
+      array[I] real q;
 
       // variance terms
       array[T,I] real sigmao2;
