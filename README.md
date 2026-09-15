@@ -2,7 +2,7 @@ bdm
 ===
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/biomass-dynamic-models/bdm/actions/workflows/check-release.yaml/badge.svg)](https://github.com/biomass-dynamic-models/bdm/actions/workflows/check-release.yaml)
+[![R-CMD-check](https://github.com/biomass-dynamic-models/bdm/actions/workflows/check-release.yml/badge.svg)](https://github.com/biomass-dynamic-models/bdm/actions/workflows/check-release.yml)
 [![Build site](https://github.com/biomass-dynamic-models/bdm/actions/workflows/build-site.yml/badge.svg)](https://github.com/biomass-dynamic-models/bdm/actions/workflows/build-site.yml)
 <!-- badges: end -->
 
