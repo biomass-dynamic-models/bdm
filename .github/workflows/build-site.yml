@@ -47,7 +47,7 @@ jobs:
       - name: Build site
         run: |
             pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
-            setwd("docs"); x <- readLines("index.html"); x[107] <- "<h2 data-toc-skip>Homepage</h2><ul class=\"list-unstyled\"><li><a href=\"https://biomass-dynamic-models.github.io\" class=\"external-link\">BDM-fish</a></li></ul>"; x[108] <- "</div>"; writeLines(x, con = "index.html")
+            setwd("docs"); x <- readLines("index.html"); x[117] <- "<h2 data-toc-skip>Homepage</h2><ul class=\"list-unstyled\"><li><a href=\"https://biomass-dynamic-models.github.io\" class=\"external-link\">BDM-fish</a></li></ul>"; x[118] <- "</div>"; writeLines(x, con = "index.html")
         shell: Rscript {0}
         
       - name: Push site
