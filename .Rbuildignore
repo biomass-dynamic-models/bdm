@@ -1,8 +1,6 @@
-_pkgdown.yml
 ^docs$
 ^data-raw$
 Makefile
-^.github
 
 ^_pkgdown\.yml$
 ^pkgdown$
