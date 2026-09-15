@@ -1,5 +1,5 @@
 ---
-title: "A new (non-default) model application of `bdm`"
+title: "A non-default model application"
 author: "Charles T T Edwards"
 date: "`r format(Sys.Date(), '%d-%b-%Y')`"
 output:
@@ -7,7 +7,7 @@ output:
     fig_caption: yes
     toc: yes
 vignette: >
-  %\VignetteIndexEntry{bdm-newmodel}
+  %\VignetteIndexEntry{A non-default model application}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
