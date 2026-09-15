@@ -247,11 +247,11 @@ mdl <- compiler(mdl)
 
 If a new model is loaded into the `bdm` object, and if the estimated parameters are not the same as the default, then the initialisation function within `sampler()` will not work. This function provides sensible values for the MCMC algorithm. If the new model were to be run without an initialisation function then initial parameter values will be generated randomly by `rstan`.
 
-To construct a new inititialisation function we can use some of the auxilliary functions that are implemented for the default model:
+To construct a new inititialisation function we can use some of the auxiliary functions that are implemented for the default model:
 
 ```{r}
 init.r    <- getr(mdl)[['E[r]']]
-init.logK <- getlogK(dat, r = init.r)
+init.logK <- getlogK(dat, r = init.r, interval = c(1, 100))
 init.x    <- getx(dat, r = init.r, logK = init.logK)
 ```
 
@@ -265,7 +265,7 @@ mdl <- sampler(mdl, dat, init = init.func)
 histplot(mdl,par = c('r','logK','sigmap2'))
 ```
 
-We note that the model is unable to resolve a value for `logK`, and estiamates an excessively high value for `sigmap2`. It would therefore be considered to have failed as an assessment. This can also be seen from the catchability traces, which behave poorly:
+We note that the model is unable to resolve a value for `logK`, and estimates an excessively high value for `sigmap2`. It would therefore be considered to have failed as an assessment. This can also be seen from the catchability traces, which behave poorly:
 
 ```{r newtrace, fig.cap='Catchability trace plots plots for chatham rise hake fit using the new non-default model'}
 traceplot(mdl,par = 'q')
