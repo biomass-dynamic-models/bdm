@@ -1,13 +1,13 @@
-Bayesian biomass dynamic model
-==============================
+bdm
+===
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/biomass-dynamic-models/bdm/actions/workflows/check-release.yaml/badge.svg)](https://github.com/biomass-dynamic-models/bdm/actions/workflows/check-release.yaml)
 [![Build site](https://github.com/biomass-dynamic-models/bdm/actions/workflows/build-site.yml/badge.svg)](https://github.com/biomass-dynamic-models/bdm/actions/workflows/build-site.yml)
 <!-- badges: end -->
 
-Instructions
-=============
+Installation
+============
 First, install the `rstan` and `remotes` packages from CRAN:
 
     # Install packages
