@@ -3,6 +3,7 @@ pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   bdm-newmodel: bdm-newmodel.html
+  bdm-example: bdm-example.html
   bdm: bdm.html
 last_built: 2026-09-15T09:30Z
 urls:
